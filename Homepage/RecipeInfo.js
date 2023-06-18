@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 
-var id = "";
+var id = ""; // This variable is unused and can be removed
 const RecipeInfo = () =>{
     const [item, setItem] = useState(); 
     const {recipeId} = useParams();
   
-
+    // Fetching recipe information based on recipeId
     if (recipeId !==" ") {
         fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`).then(res => res.json()).then(data => {
             setItem(data.meals[0]);  
@@ -19,11 +19,12 @@ const RecipeInfo = () =>{
        
         <>
             
-        {
+        {   
+            /* Displaying the recipe information, including the meal thumbnail, meal details, ingredients, and instructions.*/
             (!item) ? "" : <div className="content">
-                <img src={item.strMealThumb} alt="" />
+                <img src={item.strMealThumb} alt="" />  
                 <div className="inner-content">
-                    <h1>{item.strMeal}</h1>
+                    <h1>{item.strMeal}</h1>    
                     <h2>{item.strArea} Food</h2>
                     <h3>Category: {item.strCategory}</h3>
                 </div>
