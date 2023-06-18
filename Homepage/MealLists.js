@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// This portion 
 const MealLists = ({ data }) => {
     console.log(data)
     let navigate = useNavigate();
