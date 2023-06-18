@@ -7,21 +7,24 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 
+
 const Home = () => {
-  const { username } = userData();
-  const [url, setUrl] = useState("https:/www.themealdb.com/api/json/v1/1/search.php?f=a");
-  const [item, setItem] = useState();
-  const [show, setShow] = useState(false);
-  const [search,setSearch]=useState();
+  const { username } = userData(); // Fetching the username from the userData helper function
+  const [url, setUrl] = useState("https:/www.themealdb.com/api/json/v1/1/search.php?f=a"); // Setting the initial URL for fetching data
+  const [item, setItem] = useState(); // State to store the fetched meal data
+  const [show, setShow] = useState(false); // State to control the visibility of meal lists
+  const [search,setSearch]=useState(); // State to store the value of the search input field
 
   useEffect(() => {
-    fetch(url).then(res => res.json()).then(data => {
-      console.log(data.meals);
-      setItem(data.meals);
-      setShow(true);
-
-    })
-  }, [url])
+    // Fetching meal data from the API when the URL changes
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.meals);
+        setItem(data.meals); // Updating the meal data state
+        setShow(true); // Showing the meal lists
+      });
+  }, [url]);
 
   const searchRecipe=(evt)=>{
     setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`)
