@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 
-var id = ""; // This variable is unused and can be removed
+
 const RecipeInfo = () =>{
     const [item, setItem] = useState(); 
     const {recipeId} = useParams();
