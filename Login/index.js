@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { FormGroup, Input, Button, Row, Col } from 'reactstrap';
+import React, { useState, useRef } from 'react';
+import { Container, FormGroup, Input, Button, Row, Col } from 'reactstrap';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { storeUser } from '../../help';
+import { toast } from 'react-toastify';
+
+
 
 
 const initialUser = { identifier: '', password: '' }; 
@@ -23,6 +26,12 @@ const handleChange = ({ target }) => {
   }));
 };
 
+const handleKeyPress = (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    handleLogin();
+  }
+};
 
 // sends credentials of authenticated user 
   const handleLogin = async () => {
@@ -34,6 +43,9 @@ const handleChange = ({ target }) => {
         //create a storage for JWT
         //stores user credentials and navigates the user to the main application page.
         if (data.jwt) {
+          toast.success("Logged in Successfully", {
+            hideProgressBar: true,
+          });
           storeUser(data);
           setUser(initialUser);
           navigate('/'); 
@@ -41,14 +53,18 @@ const handleChange = ({ target }) => {
         console.log({ data });    // shows data (e.g, jwt,user info)
       }
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, {
+        hideProgressBar: true,
+      });
     }
   };
 
   return (
-      
+ 
+
       <Row className='login'>       
-        <Col sm='15' md={{ size: 4, offset: 4 }}>
+        <Col sm='15' md={{ size: 4, offset: 4 }}> 
+        <h4 span className="branding">*Welcome to FoodBites*</h4>  
           <FormGroup>
             <Input
               type='identifier'
@@ -63,22 +79,30 @@ const handleChange = ({ target }) => {
               type='password'
               name='password'
               value={user.password}
+              onKeyPress={handleKeyPress} 
               onChange={handleChange}
               placeholder='Enter Password'
             />
-          </FormGroup>
+          </FormGroup>         
           <FormGroup>
-          <Col sm='15' md={{ size: 4, offset: 4 }}>
-            <Button color='primary' onClick={handleLogin}>
-              Login
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Button color='primary' onClick={handleLogin}> 
+          Login
+        </Button>
+        <span style={{ marginLeft: '10px', marginRight: '10px' }}></span>
+        <h7>
+          <Button color ='primary' >
+            <Link to ='/register'>Signup</Link>
             </Button>
-            </Col>
+          </h7>       
+      </div>
           </FormGroup>
         </Col>
       </Row>
+
+
  
   );
 };
 
 export default Login;
-
